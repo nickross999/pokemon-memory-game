@@ -17,13 +17,15 @@ function Card({ number, id, callback }) {
   useEffect(() => {
     fetch(`${API_LINK}pokemon/${number}`)
       .then((response) => response.json())
-      .then((data) => setPokemon({
-        name: data.name,
-        sprites: {
-          normal: data.sprites.other["official-artwork"].front_default,
-          shiny: data.sprites.other["official-artwork"].front_shiny,
-        }
-      }))
+      .then((data) =>
+        setPokemon({
+          name: data.name,
+          sprites: {
+            normal: data.sprites.other["official-artwork"].front_default,
+            shiny: data.sprites.other["official-artwork"].front_shiny,
+          },
+        })
+      )
       .then(() => setLoading(false));
   }, [number]);
 
@@ -39,6 +41,8 @@ function Card({ number, id, callback }) {
         src={
           loading
             ? loadingGif
+            : Math.floor(Math.random() * 64) === 63
+            ? pokemon.sprites.shiny
             : pokemon.sprites.normal
         }
         alt={loading ? "loading" : pokemon.name}

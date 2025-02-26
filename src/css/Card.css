@@ -5,6 +5,12 @@
     justify-content: center;
     align-items: center;
     min-height: 225px;
+    transition: box-shadow 0.2s;
+}
+
+.card:hover {
+    box-shadow: 1px 1px 5px 1px black;
+    cursor: pointer;
 }
 
 .pokemon-image {
