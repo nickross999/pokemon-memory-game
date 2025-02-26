@@ -1,0 +1,19 @@
+.nav-bar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-score {
+  margin-right: 10px;
+}
+
+.icon {
+  max-width: 32px;
+}
+
+.app-container {
+  flex-grow: 9;
+  border: 1px solid black;
+}
