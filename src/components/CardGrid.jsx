@@ -6,11 +6,9 @@ function CardGrid({ callback, grid }) {
     return <Card number={number} key={index} callback={callback} />;
   });
 
-  console.log(cardElements);
-
   return (
     <>
-      {cardElements.length === grid.length ? <div className="card-grid">{cardElements}</div> : <span>Loading...</span>}
+      <div className="card-grid">{cardElements}</div>
     </>
   );
 }

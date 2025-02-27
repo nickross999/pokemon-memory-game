@@ -12,41 +12,44 @@ function Card({ number, id, callback }) {
       normal: null,
       shiny: null,
     },
+    id: null,
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${API_LINK}pokemon/${number}`)
       .then((response) => response.json())
       .then((data) =>
         setPokemon({
-          name: data.name,
+          name: data.name[0].toUpperCase() + data.name.slice(1),
           sprites: {
             normal: data.sprites.other["official-artwork"].front_default,
             shiny: data.sprites.other["official-artwork"].front_shiny,
           },
+          index: data.id - 1,
         })
       )
       .then(() => setLoading(false));
   }, [number]);
 
-  const handleClick = () => {
-    setLoading(true);
-    callback();
+  const handleClick = (e) => {
+    callback(e);
   };
 
   return (
-    <div key={id} className="card" onClick={handleClick}>
+    <div key={id} className="card" onClick={handleClick} name={pokemon.name} id={pokemon.index}>
       {loading ? "Loading..." : pokemon.name}
       <img
         src={
           loading
             ? loadingGif
-            : Math.floor(Math.random() * 64) === 63
-            ? pokemon.sprites.shiny
-            : pokemon.sprites.normal
+            : Math.floor(Math.random() * 64) > 0
+            ? pokemon.sprites.normal
+            : pokemon.sprites.shiny
         }
         alt={loading ? "loading" : pokemon.name}
         className="pokemon-image"
+        onClick={null}
       />
     </div>
   );
