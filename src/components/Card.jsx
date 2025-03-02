@@ -43,7 +43,7 @@ function Card({ number, id, callback }) {
         src={
           loading
             ? loadingGif
-            : Math.floor(Math.random() * 64) > 0
+            : Math.floor(Math.random() * 1024) > 0
             ? pokemon.sprites.normal
             : pokemon.sprites.shiny
         }

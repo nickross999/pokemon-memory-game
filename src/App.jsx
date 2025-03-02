@@ -3,40 +3,103 @@ import "./css/App.css";
 import gearIcon from "./assets/cog.png";
 import helpIcon from "./assets/help.png";
 
-import CardGrid from "./components/CardGrid.jsx";
+import Card from "./components/Card.jsx";
 
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [clickedArray, setClickedArray] = useState(new Array(1025).fill(false));
+  const [clickedArray, setClickedArray] = useState([]);
   const [gameSettings, setGameSettings] = useState({
-    numberOfCards: 10,
-    generations: {
-      1: true,
-      2: false,
-      3: false,
-      4: false,
-      5: false,
-      6: false,
-      7: false,
-      8: false,
-      9: false,
-    },
+    generation: 1,
+    numberOfCards: 5,
   });
 
   const generateGrid = () => {
     const grid = [];
     for (let i = 0; i < gameSettings.numberOfCards; i++) {
-      let random = Math.ceil(Math.random() * 1025);
+      if (i === gameSettings.numberOfCards - 1) {
+        const unclickedCardsInCurrentGrid = grid.filter(
+          (number) => !clickedArray[number - 1]
+        );
+        if (unclickedCardsInCurrentGrid.length === 0) {
+          if (clickedArray.every((clicked) => clicked)) {
+            let random = getRandomPokemonNumber();
+            while (grid.includes(random)) {
+              random = getRandomPokemonNumber();
+            }
+            grid.push(random);
+            return grid;
+          } else {
+            const unclickedIndices = clickedArray.forEach((clicked, index) => {
+              if (!clicked) {
+                return index;
+              }
+            });
+            grid.push(unclickedIndices[0] + 1);
+          }
+        }
+      }
+      let random = getRandomPokemonNumber();
       while (grid.includes(random)) {
-        random = Math.ceil(Math.random() * 1025);
+        random = getRandomPokemonNumber();
       }
       grid.push(random);
     }
     return grid;
   };
 
-  const [gridState, setGridState] = useState(generateGrid());
+  const getRandomPokemonNumber = () => {
+    const randomNumberModifier =
+      gameSettings.generation === 1
+        ? 151
+        : gameSettings.generation === 2
+        ? 100
+        : gameSettings.generation === 3
+        ? 135
+        : gameSettings.generation === 4
+        ? 107
+        : gameSettings.generation === 5
+        ? 156
+        : gameSettings.generation === 6
+        ? 72
+        : gameSettings.generation === 7
+        ? 88
+        : gameSettings.generation === 8
+        ? 96
+        : gameSettings.generation === 9
+        ? 120
+        : 1025;
+
+    const randomNumberAdditive =
+      gameSettings.generation === 1
+        ? 0
+        : gameSettings.generation === 2
+        ? 151
+        : gameSettings.generation === 3
+        ? 251
+        : gameSettings.generation === 4
+        ? 386
+        : gameSettings.generation === 5
+        ? 493
+        : gameSettings.generation === 6
+        ? 649
+        : gameSettings.generation === 7
+        ? 721
+        : gameSettings.generation === 8
+        ? 809
+        : gameSettings.generation === 9
+        ? 905
+        : 0;
+
+    return (
+      Math.ceil(Math.random() * randomNumberModifier) + randomNumberAdditive
+    );
+  };
+
+  const [gridState, setGridState] = useState({
+    grid: generateGrid(),
+    key: crypto.randomUUID(),
+  });
 
   const handleClick = (e) => {
     const index = e.currentTarget.getAttribute("id");
@@ -46,21 +109,55 @@ function App() {
         return prev;
       });
       setCurrentScore(currentScore + 1);
-      setGridState(generateGrid());
+      setGridState((prev) => {
+        return { grid: generateGrid(), key: prev.key };
+      });
     } else {
       endGame();
     }
   };
 
+  let cardElements = gridState.grid.map((number, index) => {
+    return <Card number={number} key={index} callback={handleClick} />;
+  });
+
   const endGame = () => {
     console.log("end game function called");
+    setCurrentScore(0);
+    setClickedArray([]);
+    setGridState((prev) => {
+      return { grid: generateGrid(), key: prev.key };
+    });
   };
+
+  const showSettings = () => {
+    document.querySelector(".settings").classList.toggle("hidden");
+  };
+
+  const showHowToPlay = () => {
+    document.querySelector(".how-to-play").classList.toggle("hidden");
+  };
+
+  const updateSettings = (e) => {
+    setGameSettings({
+      generation: parseInt(e.currentTarget[0].value),
+      numberOfCards: parseInt(e.currentTarget[1].value),
+    });
+  };
+
+  useEffect(() => {
+    setCurrentScore(0);
+    setClickedArray(new Array([]));
+    setGridState((prev) => {
+      return { grid: generateGrid(), key: prev.key };
+    });
+  }, [gameSettings]);
 
   useEffect(() => {
     if (currentScore > highScore) {
       setHighScore(currentScore);
     }
-  }, [currentScore, highScore]);
+  }, [currentScore]);
 
   return (
     <>
@@ -71,16 +168,54 @@ function App() {
           <span className="high-score">High Score: {highScore}</span>
         </div>
         <div className="settings-container">
-          <button className="game-options">
+          <button className="game-options-button" onClick={showSettings}>
             <img className="icon" src={gearIcon} />
           </button>
-          <button className="how-to-play">
+          <button className="how-to-play-button" onClick={showHowToPlay}>
             <img className="icon" src={helpIcon} />
           </button>
         </div>
       </nav>
+      <div className="settings hidden">
+        <form onChange={updateSettings}>
+          <label htmlFor="generation-select">Select Generation</label>
+          <select id="generation-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="all">All</option>
+          </select>
+          <label htmlFor="number-of-cards">Number of Cards</label>
+          <select
+            id="number-of-cards"
+            defaultValue={gameSettings.numberOfCards}
+          >
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </form>
+      </div>
+      <div className="how-to-play modal hidden">
+        <h1>How To Play:</h1>
+        <p>Click a card that you haven't already clicked to get a point.</p>
+        <p>Click the same card twice and the game will end.</p>
+        <p>The generation of Pokemon shown, as well as the number of cards on the screen can be changed in the options.</p>
+        <p>Try your best to get a high score!</p>
+      </div>
       <div className="app-container">
-        <CardGrid callback={handleClick} grid={gridState} />
+        <div className="card-grid" key={gridState.key}>
+          {cardElements}
+        </div>
       </div>
     </>
   );
