@@ -14,23 +14,6 @@
   max-width: 32px;
 }
 
-.settings-container {
-  display: grid;
-  gap: 5px;
-}
-
-.settings-container > button {
-  background-color: transparent;
-  border: none;
-  transition: filter 0.2s, transform 0.2s;
-}
-
-.settings-container > button:hover {
-  cursor: pointer;
-  filter: drop-shadow(0 0 0.75rem gray);
-  transform: scale(1.1);
-}
-
 .app-container {
   flex-grow: 9;
   border: 1px solid black;
@@ -43,12 +26,90 @@
   padding: 15px;
 }
 
-.settings,
 .how-to-play {
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid black;
+}
+
+.settings-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 5px;
+}
+
+.settings-button {
+  background-color: transparent;
+  border: none;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.settings {
+  border: 1px solid black;
+}
+
+.settings-form {
+  text-align: center;
+  display: grid;
+  grid-template:
+    "label-generations input-generations"
+    "label-cards input-cards"
+    "label-difficulty input-difficulty";
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+#generation-label {
+  grid-area: label-generations;
+}
+
+#generation-select {
+  grid-area: input-generations;
+}
+
+#cards-label {
+  grid-area: label-cards;
+}
+
+#number-of-cards {
+  grid-area: input-cards;
+}
+
+#hard-label {
+  grid-area: label-difficulty;
+}
+
+#hard-mode {
+  grid-area: input-difficulty;
+}
+
+.settings-hidden {
+  width: 0px;
+  height: 0px;
+  overflow-x: hidden;
+  transition: width 0.35s;
+  border: none;
+}
+
+.settings-showing {
+  margin-bottom: -50px;
+  width: 200px;
+  height: auto;
+  transition: width 0.35s;
+}
+
+.settings-button:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 0.75rem gray);
+  transform: scale(1.1);
+}
+
+.options-container {
+  display: flex;
 }
 
 .how-to-play {
@@ -91,6 +152,7 @@
   transform: translate(-50%, -35%);
   opacity: 0;
   transition: all ease-in-out 0.35s;
+  z-index: -1;
 }
 
 .showing-modal {

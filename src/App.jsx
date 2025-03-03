@@ -15,6 +15,8 @@ function App() {
     numberOfCards: 5,
     hardMode: false,
   });
+  const [gridState, setGridState] = useState({});
+  const [gameStarted, setGameStarted] = useState(false);
 
   const generateGrid = () => {
     const grid = [];
@@ -98,11 +100,6 @@ function App() {
     );
   };
 
-  const [gridState, setGridState] = useState({
-    grid: generateGrid(),
-    key: crypto.randomUUID(),
-  });
-
   const handleClick = (e) => {
     const index = e.currentTarget.getAttribute("id");
     if (!clickedArray[index]) {
@@ -119,16 +116,18 @@ function App() {
     }
   };
 
-  let cardElements = gridState.grid.map((number, index) => {
-    return (
-      <Card
-        number={number}
-        key={index}
-        hardMode={gameSettings.hardMode}
-        callback={handleClick}
-      />
-    );
-  });
+  let cardElements = gameStarted
+    ? gridState.grid.map((number, index) => {
+        return (
+          <Card
+            number={number}
+            key={index}
+            hardMode={gameSettings.hardMode}
+            callback={handleClick}
+          />
+        );
+      })
+    : null;
 
   const endGame = () => {
     console.log("end game function called");
@@ -140,7 +139,8 @@ function App() {
   };
 
   const showSettings = () => {
-    document.querySelector(".settings").classList.toggle("hidden");
+    document.querySelector(".settings").classList.toggle("settings-hidden");
+    document.querySelector(".settings").classList.toggle("settings-showing");
   };
 
   const showHowToPlay = () => {
@@ -181,51 +181,60 @@ function App() {
           <span className="high-score">High Score: {highScore}</span>
         </div>
         <div className="settings-container">
-          <button className="game-options-button" onClick={showSettings}>
-            <img className="icon" src={gearIcon} />
-          </button>
-          <button className="how-to-play-button" onClick={showHowToPlay}>
+          <div className="options-container">
+            <div className="settings settings-hidden">
+              <form onChange={updateSettings} className="settings-form">
+                <label htmlFor="generation-select" id="generation-label">Generation</label>
+                <select
+                  id="generation-select"
+                  defaultValue={gameSettings.generation}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="all">All</option>
+                </select>
+                <label htmlFor="number-of-cards" id="cards-label">Number of Cards</label>
+                <select
+                  id="number-of-cards"
+                  defaultValue={gameSettings.numberOfCards}
+                >
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+                <label htmlFor="hard-mode" id="hard-label">Hard Mode</label>
+                <input
+                  type="checkbox"
+                  id="hard-mode"
+                  defaultValue={gameSettings.hardMode}
+                />
+              </form>
+            </div>
+            <button className="game-options-button settings-button" onClick={showSettings}>
+              <img className="icon" src={gearIcon} />
+            </button>
+          </div>
+          <button className="how-to-play-button settings-button" onClick={showHowToPlay}>
             <img className="icon" src={helpIcon} />
           </button>
         </div>
       </nav>
-      <div className="settings hidden">
-        <form onChange={updateSettings}>
-          <label htmlFor="generation-select">Generation</label>
-          <select id="generation-select" defaultValue={gameSettings.generation}>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="all">All</option>
-          </select>
-          <label htmlFor="number-of-cards">Number of Cards</label>
-          <select
-            id="number-of-cards"
-            defaultValue={gameSettings.numberOfCards}
-          >
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
-          <label htmlFor="hard-mode">Hard Mode</label>
-          <input
-            type="checkbox"
-            id="hard-mode"
-            defaultValue={gameSettings.hardMode}
-          />
-        </form>
-      </div>
       <div className="how-to-play modal showing-modal">
-        <button onClick={showHowToPlay} className="close-how-to-play"><img className="icon" src={closeIcon} /></button>
+        {gameStarted ? (
+          <button onClick={showHowToPlay} className="close-how-to-play">
+            <img className="icon" src={closeIcon} />
+          </button>
+        ) : null}
         <h1>How To Play:</h1>
         <p>Click a card that you haven't already clicked to get a point.</p>
         <p>Click the same card twice and the game will end.</p>
@@ -234,6 +243,16 @@ function App() {
           screen can be changed in the options.
         </p>
         <p>Try your best to get a high score!</p>
+        {gameStarted ? null : (
+          <button
+            onClick={() => {
+              setGameStarted(true);
+              showHowToPlay();
+            }}
+          >
+            Start
+          </button>
+        )}
       </div>
       <div className="app-container">
         <div className="card-grid" key={gridState.key}>
