@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./css/App.css";
 import gearIcon from "./assets/cog.png";
 import helpIcon from "./assets/help.png";
+import closeIcon from "./assets/close-thick.png";
 
 import Card from "./components/Card.jsx";
 
@@ -12,6 +13,7 @@ function App() {
   const [gameSettings, setGameSettings] = useState({
     generation: 1,
     numberOfCards: 5,
+    hardMode: false,
   });
 
   const generateGrid = () => {
@@ -118,7 +120,14 @@ function App() {
   };
 
   let cardElements = gridState.grid.map((number, index) => {
-    return <Card number={number} key={index} callback={handleClick} />;
+    return (
+      <Card
+        number={number}
+        key={index}
+        hardMode={gameSettings.hardMode}
+        callback={handleClick}
+      />
+    );
   });
 
   const endGame = () => {
@@ -135,13 +144,16 @@ function App() {
   };
 
   const showHowToPlay = () => {
-    document.querySelector(".how-to-play").classList.toggle("hidden");
+    document.querySelector(".how-to-play").classList.toggle("hidden-modal");
+    document.querySelector(".how-to-play").classList.toggle("showing-modal");
+    document.querySelector(".modal-shadow").classList.toggle("hidden");
   };
 
   const updateSettings = (e) => {
     setGameSettings({
       generation: parseInt(e.currentTarget[0].value),
       numberOfCards: parseInt(e.currentTarget[1].value),
+      hardMode: e.currentTarget[2].checked,
     });
   };
 
@@ -161,6 +173,7 @@ function App() {
 
   return (
     <>
+      <div className="modal-shadow"></div>
       <nav className="nav-bar">
         <h1>Pokémon Memory Game</h1>
         <div className="score-container">
@@ -178,8 +191,8 @@ function App() {
       </nav>
       <div className="settings hidden">
         <form onChange={updateSettings}>
-          <label htmlFor="generation-select">Select Generation</label>
-          <select id="generation-select">
+          <label htmlFor="generation-select">Generation</label>
+          <select id="generation-select" defaultValue={gameSettings.generation}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -203,13 +216,23 @@ function App() {
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
+          <label htmlFor="hard-mode">Hard Mode</label>
+          <input
+            type="checkbox"
+            id="hard-mode"
+            defaultValue={gameSettings.hardMode}
+          />
         </form>
       </div>
-      <div className="how-to-play modal hidden">
+      <div className="how-to-play modal showing-modal">
+        <button onClick={showHowToPlay} className="close-how-to-play"><img className="icon" src={closeIcon} /></button>
         <h1>How To Play:</h1>
         <p>Click a card that you haven't already clicked to get a point.</p>
         <p>Click the same card twice and the game will end.</p>
-        <p>The generation of Pokemon shown, as well as the number of cards on the screen can be changed in the options.</p>
+        <p>
+          The generation of Pokemon shown, as well as the number of cards on the
+          screen can be changed in the options.
+        </p>
         <p>Try your best to get a high score!</p>
       </div>
       <div className="app-container">

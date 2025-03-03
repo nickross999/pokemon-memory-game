@@ -9,14 +9,3 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-
-.settings, .how-to-play {
-    display: flex;
-    border: 1px solid black;
-    height: 100px;
-    width: 100px;
-}
-
-.hidden {
-    display: none;
-}
