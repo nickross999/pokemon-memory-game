@@ -147,6 +147,7 @@ function App() {
     document.querySelector(".how-to-play").classList.toggle("hidden-modal");
     document.querySelector(".how-to-play").classList.toggle("showing-modal");
     document.querySelector(".modal-shadow").classList.toggle("hidden");
+    document.querySelector("body").classList.toggle("no-scroll");
   };
 
   const updateSettings = (e) => {
@@ -184,7 +185,7 @@ function App() {
           <div className="options-container">
             <div className="settings settings-hidden">
               <form onChange={updateSettings} className="settings-form">
-                <label htmlFor="generation-select" id="generation-label">Generation</label>
+                <label htmlFor="generation-select" id="generation-label">Generation:</label>
                 <select
                   id="generation-select"
                   defaultValue={gameSettings.generation}
@@ -200,7 +201,7 @@ function App() {
                   <option value="9">9</option>
                   <option value="all">All</option>
                 </select>
-                <label htmlFor="number-of-cards" id="cards-label">Number of Cards</label>
+                <label htmlFor="number-of-cards" id="cards-label">Card Count:</label>
                 <select
                   id="number-of-cards"
                   defaultValue={gameSettings.numberOfCards}
@@ -212,7 +213,7 @@ function App() {
                   <option value="9">9</option>
                   <option value="10">10</option>
                 </select>
-                <label htmlFor="hard-mode" id="hard-label">Hard Mode</label>
+                <label htmlFor="hard-mode" id="hard-label">Hard Mode:</label>
                 <input
                   type="checkbox"
                   id="hard-mode"

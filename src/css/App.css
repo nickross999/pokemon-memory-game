@@ -1,10 +1,11 @@
+/*navigation bar*/
 .nav-bar {
-  flex-grow: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 15px 0px 15px;
+  padding: 10px 15px 10px 15px;
 }
+
 
 .current-score {
   margin-right: 10px;
@@ -14,8 +15,9 @@
   max-width: 32px;
 }
 
+/*app*/
 .app-container {
-  flex-grow: 9;
+  flex-grow: 1;
   border: 1px solid black;
 }
 
@@ -26,90 +28,12 @@
   padding: 15px;
 }
 
+/*modals - how to play*/
 .how-to-play {
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid black;
-}
-
-.settings-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  gap: 5px;
-}
-
-.settings-button {
-  background-color: transparent;
-  border: none;
-  transition: filter 0.2s, transform 0.2s;
-}
-
-.settings {
-  border: 1px solid black;
-}
-
-.settings-form {
-  text-align: center;
-  display: grid;
-  grid-template:
-    "label-generations input-generations"
-    "label-cards input-cards"
-    "label-difficulty input-difficulty";
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-}
-
-#generation-label {
-  grid-area: label-generations;
-}
-
-#generation-select {
-  grid-area: input-generations;
-}
-
-#cards-label {
-  grid-area: label-cards;
-}
-
-#number-of-cards {
-  grid-area: input-cards;
-}
-
-#hard-label {
-  grid-area: label-difficulty;
-}
-
-#hard-mode {
-  grid-area: input-difficulty;
-}
-
-.settings-hidden {
-  width: 0px;
-  height: 0px;
-  overflow-x: hidden;
-  transition: width 0.35s;
-  border: none;
-}
-
-.settings-showing {
-  margin-bottom: -50px;
-  width: 200px;
-  height: auto;
-  transition: width 0.35s;
-}
-
-.settings-button:hover {
-  cursor: pointer;
-  filter: drop-shadow(0 0 0.75rem gray);
-  transform: scale(1.1);
-}
-
-.options-container {
-  display: flex;
 }
 
 .how-to-play {
@@ -161,6 +85,91 @@
   transition: all ease-in-out 0.35s;
 }
 
+/*modals - settings*/
+.settings-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 5px;
+}
+
+.settings-button {
+  background-color: transparent;
+  border: none;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.settings {
+  position: absolute;
+  right: 100%;
+}
+
+.settings-form {
+  overflow: hidden;
+  text-align: center;
+  display: grid;
+  grid-template:
+    "label-generations input-generations"
+    "label-cards input-cards"
+    "label-difficulty input-difficulty";
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr;
+  gap: 5px;
+  width: 10em;
+  height: auto;
+}
+
+#generation-label {
+  grid-area: label-generations;
+}
+
+#generation-select {
+  grid-area: input-generations;
+}
+
+#cards-label {
+  grid-area: label-cards;
+}
+
+#number-of-cards {
+  grid-area: input-cards;
+}
+
+#hard-label {
+  grid-area: label-difficulty;
+}
+
+#hard-mode {
+  grid-area: input-difficulty;
+}
+
+.settings-hidden {
+  overflow: hidden;
+  width: 0em;
+  margin-bottom: -3em;
+  transition: all 0.35s;
+}
+
+.settings-showing {
+  overflow: hidden;
+  margin-bottom: -3em;
+  width: 10em;
+  height: auto;
+  transition: all 0.35s;
+}
+
+.settings-button:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 0.75rem gray);
+  transform: scale(1.1);
+}
+
+.options-container {
+  display: flex;
+}
+
+/*hidden*/
 .hidden {
   display: none;
 }
