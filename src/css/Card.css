@@ -13,9 +13,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 35em;
+    min-height: 40vh;
     transition: box-shadow 0.2s, transform 0.2s;
     overflow: hidden;
+    font-size: 2em;
 }
 
 .card:hover {
@@ -25,15 +26,16 @@
 }
 
 .pokemon-image {
-    max-width: 18em;
+    max-width: 15vw;
 }
 
 /*tablet/mobile*/
 @media screen and (max-width: 1000px) {
     .card {
-        min-height: .25em;
+        min-height: 0;
+        max-height: 15vh;
     }
     .pokemon-image {
-        max-width: 10em;
+        max-width: 15vw;
     }
 }
