@@ -1,19 +1,39 @@
+:root {
+    --peach: #FFF2F2;
+    --light-blue: #A9B5DF;
+    --blue: #7886C7;
+    --dark-blue: #2D336B;
+  }
+
 .card {
-    border: 1px solid black;
+    border: 3px solid var(--dark-blue);
+    background-color: var(--peach);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 225px;
+    min-height: 35em;
     transition: box-shadow 0.2s, transform 0.2s;
+    overflow: hidden;
 }
 
 .card:hover {
     box-shadow: 0 0 0.75rem gray;
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
 }
 
 .pokemon-image {
-    max-width: 200px;
+    max-width: 18em;
+}
+
+/*tablet/mobile*/
+@media screen and (max-width: 1000px) {
+    .card {
+        min-height: .25em;
+    }
+    .pokemon-image {
+        max-width: 10em;
+    }
 }

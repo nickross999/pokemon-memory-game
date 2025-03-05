@@ -145,8 +145,10 @@ function App() {
   };
 
   const showExtraInfo = () => {
-    document.querySelector(".extra-info").classList.toggle("showing-extra-info")
-  }
+    document
+      .querySelector(".extra-info")
+      .classList.toggle("showing-extra-info");
+  };
 
   const showHowToPlay = () => {
     document.querySelector(".how-to-play").classList.toggle("hidden-modal");
@@ -181,7 +183,7 @@ function App() {
     <>
       <div className="modal-shadow"></div>
       <nav className="nav-bar">
-        <h1>Pokémon Memory Game</h1>
+        <h1 className="title">Pokémon Memory Game</h1>
         <div className="score-container">
           <span className="current-score">Current Score: {currentScore}</span>
           <span className="high-score">High Score: {highScore}</span>
@@ -190,7 +192,9 @@ function App() {
           <div className="options-container">
             <div className="settings settings-hidden">
               <form onChange={updateSettings} className="settings-form">
-                <label htmlFor="generation-select" id="generation-label">Generation:</label>
+                <label htmlFor="generation-select" id="generation-label">
+                  Generation:
+                </label>
                 <select
                   id="generation-select"
                   defaultValue={gameSettings.generation}
@@ -206,7 +210,9 @@ function App() {
                   <option value="9">9</option>
                   <option value="all">All</option>
                 </select>
-                <label htmlFor="number-of-cards" id="cards-label">Card Count:</label>
+                <label htmlFor="number-of-cards" id="cards-label">
+                  Card Count:
+                </label>
                 <select
                   id="number-of-cards"
                   defaultValue={gameSettings.numberOfCards}
@@ -218,23 +224,39 @@ function App() {
                   <option value="9">9</option>
                   <option value="10">10</option>
                 </select>
-                <label htmlFor="hard-mode" id="hard-label">Hard Mode:</label>
+                <label htmlFor="hard-mode" id="hard-label">
+                  Hard Mode:
+                </label>
                 <input
                   type="checkbox"
                   id="hard-mode"
                   defaultValue={gameSettings.hardMode}
                 />
                 <div className="extra-info-container">
-                  <img className="small-icon" src={moreInfo} onMouseEnter={showExtraInfo} onMouseLeave={showExtraInfo} alt="more info" />
-                  <span className="extra-info">Randomizes the form of Pokémon with alternate forms.</span>
-                </div>
+                <img
+                  className="small-icon"
+                  src={moreInfo}
+                  onMouseEnter={showExtraInfo}
+                  onMouseLeave={showExtraInfo}
+                  alt="more info"
+                />
+                <span className="extra-info">
+                  Randomizes Pokémon forms.
+                </span>
+              </div>
               </form>
             </div>
-            <button className="game-options-button settings-button" onClick={showSettings}>
+            <button
+              className="game-options-button settings-button"
+              onClick={showSettings}
+            >
               <img className="icon" src={gearIcon} />
             </button>
           </div>
-          <button className="how-to-play-button settings-button" onClick={showHowToPlay}>
+          <button
+            className="how-to-play-button settings-button"
+            onClick={showHowToPlay}
+          >
             <img className="icon" src={helpIcon} />
           </button>
         </div>
