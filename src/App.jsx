@@ -3,6 +3,7 @@ import "./css/App.css";
 import gearIcon from "./assets/cog.png";
 import helpIcon from "./assets/help.png";
 import closeIcon from "./assets/close-thick.png";
+import moreInfo from "./assets/help-circle.png";
 
 import Card from "./components/Card.jsx";
 
@@ -143,6 +144,10 @@ function App() {
     document.querySelector(".settings").classList.toggle("settings-showing");
   };
 
+  const showExtraInfo = () => {
+    document.querySelector(".extra-info").classList.toggle("showing-extra-info")
+  }
+
   const showHowToPlay = () => {
     document.querySelector(".how-to-play").classList.toggle("hidden-modal");
     document.querySelector(".how-to-play").classList.toggle("showing-modal");
@@ -219,6 +224,10 @@ function App() {
                   id="hard-mode"
                   defaultValue={gameSettings.hardMode}
                 />
+                <div className="extra-info-container">
+                  <img className="small-icon" src={moreInfo} onMouseEnter={showExtraInfo} onMouseLeave={showExtraInfo} alt="more info" />
+                  <span className="extra-info">Randomizes the form of Pokémon with alternate forms.</span>
+                </div>
               </form>
             </div>
             <button className="game-options-button settings-button" onClick={showSettings}>
