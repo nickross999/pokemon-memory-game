@@ -87,6 +87,11 @@ function Card({ number, id, hardMode, callback }) {
         className="pokemon-image"
         onClick={null}
       />
+      <p className="score-change" onAnimationEnd={(e) => {
+        e.target.classList.remove("plus-score");
+        e.target.classList.remove("minus-score");
+        e.target.textContent = "";
+      }}></p>
     </div>
   );
 }

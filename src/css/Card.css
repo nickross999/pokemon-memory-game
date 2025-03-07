@@ -1,41 +1,78 @@
 :root {
-    --peach: #FFF2F2;
-    --light-blue: #A9B5DF;
-    --blue: #7886C7;
-    --dark-blue: #2D336B;
-  }
+  --peach: #fff2f2;
+  --light-blue: #a9b5df;
+  --blue: #7886c7;
+  --dark-blue: #2d336b;
+}
 
 .card {
-    border: 3px solid var(--dark-blue);
-    background-color: var(--peach);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 40vh;
-    transition: box-shadow 0.2s, transform 0.2s;
-    overflow: hidden;
-    font-size: 2em;
+  position: relative;
+  border: 3px solid var(--dark-blue);
+  background-color: var(--peach);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  transition: box-shadow 0.2s, transform 0.2s;
+  overflow: hidden;
+  font-size: 2em;
 }
 
 .card:hover {
-    box-shadow: 0 0 0.75rem gray;
-    transform: scale(1.05);
-    cursor: pointer;
+  box-shadow: 0 0 0.75rem gray;
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .pokemon-image {
-    max-width: 15vw;
+  max-width: 15vw;
+}
+
+.score-change {
+  position: absolute;
+  top: 0;
+  left: 50;
+}
+
+.plus-score {
+  color: green;
+  animation: score .5s linear;
+  animation-iteration-count: 1;
+}
+
+.minus-score {
+  color: red;
+  animation: score .5s linear;
+  animation-iteration-count: 1;
+}
+
+/*animations*/
+
+@keyframes score {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
 }
 
 /*tablet/mobile*/
-@media screen and (max-width: 1000px) {
-    .card {
-        min-height: 0;
-        max-height: 15vh;
-    }
-    .pokemon-image {
-        max-width: 15vw;
-    }
+@media screen and (max-width: 850px) {
+  .card {
+    min-height: 0;
+    max-height: 15vh;
+  }
+  .pokemon-image {
+    max-width: 15vw;
+  }
 }

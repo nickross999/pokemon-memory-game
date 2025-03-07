@@ -17,6 +17,8 @@
 .score-container {
   display: flex;
   flex-direction: column;
+  padding: 5px;
+  font-size: 24px;
 }
 
 .icon {
@@ -26,6 +28,38 @@
 .small-icon {
   max-width: 12px;
   max-height: 12px;
+}
+
+.score-reset {
+  animation: reset .5s linear;
+}
+
+@keyframes reset {
+  0% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(-10%);
+    border: 3px solid red;
+    border-radius: 10px;
+  }
+
+  50% {
+    transform: translateX(10%);
+    border: 3px solid red;
+    border-radius: 10px;
+  }
+
+  75% {
+    transform:  translateX(-10%);
+    border: 3px solid red;
+    border-radius: 10px;
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 /*app*/
@@ -216,7 +250,7 @@
 }
 
 /*tablet/mobile*/
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 850px) {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 1fr);
@@ -239,6 +273,7 @@
     grid-area: score;
     left: 0;
     bottom: 0;
+    font-size: 16px;
   }
 
   .settings-container {

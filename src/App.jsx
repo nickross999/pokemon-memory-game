@@ -104,6 +104,8 @@ function App() {
   const handleClick = (e) => {
     const index = e.currentTarget.getAttribute("id");
     if (!clickedArray[index]) {
+      e.currentTarget.lastChild.textContent = "+1";
+      e.currentTarget.lastChild.classList.add("plus-score");
       setClickedArray((prev) => {
         prev[index] = true;
         return prev;
@@ -113,6 +115,9 @@ function App() {
         return { grid: generateGrid(), key: prev.key };
       });
     } else {
+      e.currentTarget.lastChild.textContent = "Miss!";
+      e.currentTarget.lastChild.classList.add("minus-score");
+      document.querySelector(".score-container").classList.add("score-reset");
       endGame();
     }
   };
@@ -184,7 +189,12 @@ function App() {
       <div className="modal-shadow"></div>
       <nav className="nav-bar">
         <h1 className="title">Pokémon Memory Game</h1>
-        <div className="score-container">
+        <div
+          className="score-container"
+          onAnimationEnd={(e) => {
+            e.target.classList.remove("score-reset");
+          }}
+        >
           <span className="current-score">Current Score: {currentScore}</span>
           <span className="high-score">High Score: {highScore}</span>
         </div>
@@ -233,17 +243,15 @@ function App() {
                   defaultValue={gameSettings.hardMode}
                 />
                 <div className="extra-info-container">
-                <img
-                  className="small-icon"
-                  src={moreInfo}
-                  onMouseEnter={showExtraInfo}
-                  onMouseLeave={showExtraInfo}
-                  alt="more info"
-                />
-                <span className="extra-info">
-                  Randomizes Pokémon forms.
-                </span>
-              </div>
+                  <img
+                    className="small-icon"
+                    src={moreInfo}
+                    onMouseEnter={showExtraInfo}
+                    onMouseLeave={showExtraInfo}
+                    alt="more info"
+                  />
+                  <span className="extra-info">Randomizes Pokémon forms.</span>
+                </div>
               </form>
             </div>
             <button
